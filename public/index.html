@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1a6b3a" />
+    <meta name="description" content="إسلامي — منصتك الإسلامية الشاملة" />
+    <title>إسلامي | ISLAMIC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: "Cairo", sans-serif;
+        direction: rtl;
+      }
+      #splash {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(135deg, #0f4022, #1a6b3a);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        z-index: 9999;
+        transition: opacity 0.6s ease;
+      }
+      #splash.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .splash-icon {
+        font-size: 64px;
+        animation: rotate 3s linear infinite;
+      }
+      @keyframes rotate {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .splash-title {
+        color: #f0d060;
+        font-size: 30px;
+        font-weight: 900;
+        font-family: "Cairo", sans-serif;
+      }
+      .splash-sub {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 12px;
+        letter-spacing: 3px;
+      }
+      .splash-dots {
+        display: flex;
+        gap: 8px;
+      }
+      .splash-dot {
+        width: 8px;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        animation: bounce 1.2s ease-in-out infinite;
+      }
+      .splash-dot:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .splash-dot:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      @keyframes bounce {
+        0%,
+        80%,
+        100% {
+          transform: scale(0.8);
+          opacity: 0.4;
+        }
+        40% {
+          transform: scale(1.2);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="splash">
+      <div class="splash-icon">☪</div>
+      <div class="splash-title">إسلامي</div>
+      <div class="splash-sub">ISLAMIC PLATFORM</div>
+      <div class="splash-dots">
+        <div class="splash-dot"></div>
+        <div class="splash-dot"></div>
+        <div class="splash-dot"></div>
+      </div>
+    </div>
+    <div id="root"></div>
+    <script>
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          const s = document.getElementById("splash");
+          if (s) {
+            s.classList.add("hidden");
+            setTimeout(() => s.remove(), 700);
+          }
+        }, 1400);
+      });
+    </script>
+  </body>
+</html>
