@@ -17,19 +17,15 @@ export default function QuranPage() {
 
   const audioRef = useRef(null);
 
-  // 🔥 تحميل القرّاء من API
+  // تحميل القرّاء من API
   useEffect(() => {
     fetch("https://mp3quran.net/api/v3/reciters")
       .then((res) => res.json())
-      .then((data) => {
-        setReciters(data.reciters);
-      })
-      .catch(() => {
-        showToast("❌ فشل تحميل القرّاء");
-      });
+      .then((data) => setReciters(data.reciters))
+      .catch(() => showToast("❌ فشل تحميل القرّاء"));
   }, []);
 
-  // 🔥 تحميل السورة
+  // تحميل السورة
   const loadSurah = async (num) => {
     if (!num) return;
 
@@ -51,8 +47,7 @@ export default function QuranPage() {
 
         if (reciter) {
           const server = reciter.moshaf[0].server;
-          const url =
-            server + String(num).padStart(3, "0") + ".mp3";
+          const url = server + String(num).padStart(3, "0") + ".mp3";
           setAudioSrc(url);
         }
       } else {
@@ -65,37 +60,30 @@ export default function QuranPage() {
     setLoading(false);
   };
 
-  // 🔥 تشغيل الصوت تلقائي
+  // تشغيل الصوت تلقائي
   useEffect(() => {
     if (audioRef.current && audioSrc) {
       audioRef.current.src = audioSrc;
       audioRef.current.load();
-
-      audioRef.current.play().catch(() => {
-        showToast("اضغط تشغيل الصوت ▶️");
-      });
+      audioRef.current.play().catch(() => showToast("اضغط تشغيل الصوت ▶️"));
     }
   }, [audioSrc]);
 
-  // 🔥 اختيار سورة
+  // اختيار سورة
   const handleSurahChange = (e) => {
     const value = e.target.value;
     setSurahNum(value);
     loadSurah(value);
   };
 
-  // 🔥 اختيار قارئ
+  // اختيار قارئ
   const handleReciterChange = (e) => {
-    const selected = reciters.find(
-      (r) => r.id === parseInt(e.target.value)
-    );
-
+    const selected = reciters.find((r) => r.id === parseInt(e.target.value));
     setReciter(selected);
 
     if (surahNum && selected) {
       const server = selected.moshaf[0].server;
-      const url =
-        server + String(surahNum).padStart(3, "0") + ".mp3";
+      const url = server + String(surahNum).padStart(3, "0") + ".mp3";
       setAudioSrc(url);
     }
   };
@@ -109,7 +97,7 @@ export default function QuranPage() {
       </div>
 
       <div className="quran-controls">
-        {/* السورة */}
+        {/* اختيار السورة */}
         <div className="ctrl-group">
           <label>اختر السورة</label>
           <select value={surahNum} onChange={handleSurahChange}>
@@ -122,13 +110,12 @@ export default function QuranPage() {
           </select>
         </div>
 
-        {/* العرض */}
+        {/* طريقة العرض */}
         <div className="ctrl-group">
           <label>طريقة العرض</label>
           <div className="view-toggle">
             {[
-              ["arabic", "عربي"],
-              ["both", "كلاهما"],
+              ["arabic", "عربي"]
             ].map(([v, l]) => (
               <button
                 key={v}
@@ -141,7 +128,7 @@ export default function QuranPage() {
           </div>
         </div>
 
-        {/* القارئ */}
+        {/* اختيار القارئ */}
         <div className="ctrl-group">
           <label>القارئ</label>
           <select onChange={handleReciterChange}>
@@ -163,14 +150,14 @@ export default function QuranPage() {
         </div>
       )}
 
-      {/* 🔥 الصوت */}
+      {/* مشغل الصوت */}
       {audioSrc && (
         <div className="audio-bar">
           <audio ref={audioRef} controls />
         </div>
       )}
 
-      {/* المحتوى */}
+      {/* محتوى السورة */}
       <div className="page-body">
         {loading && <p>جاري التحميل...</p>}
         {error && <p>{error}</p>}
@@ -179,9 +166,7 @@ export default function QuranPage() {
           <div key={v.number} className="verse-card">
             <div>{v.numberInSurah}</div>
 
-            {(view === "arabic" || view === "both") && (
-              <div>{v.text}</div>
-            )}
+            {view === "arabic" && <div>{v.text}</div>}
 
             <button
               onClick={() => {
